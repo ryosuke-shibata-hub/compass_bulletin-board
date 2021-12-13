@@ -11,6 +11,23 @@
 |
 */
 
-Route::get('/', function () {
+Route::group(['middleware' => ['guest']], function() {
+
+    Route::get('/', function () {
     return view('welcome');
+});
+
+    Route::namespace('Auth')->group(function() {
+        Route::namespace('Login')->group(function() {
+            Route::get('/login','LoginController@loginForm')->name('login.form');
+            Route::post('login','LoginController@login')->name('login');
+        });
+        Route::namespace('Register')->group(function() {
+           Route::get('/register/form','RegisterController@register')->name('register.form');
+           Route::post('/register','RegisterController@registerForm')->name('register');
+           Route::get('/register/added','RegisterController@registerAdded')->name('register.added');
+
+    });
+
+});
 });
