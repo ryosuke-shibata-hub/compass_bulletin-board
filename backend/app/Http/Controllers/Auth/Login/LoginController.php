@@ -20,9 +20,16 @@ class LoginController extends Controller
         $data['password'] = $request->password;
 
         if (Auth::attempt($data)) {
-            return redirect()->route('user.post.index');
+            return redirect()->route('userPostIndex');
         }
         return back()
             ->with('login_erro','*メールアドレスまたはパスワードが違います。');
+    }
+
+    public function logout() {
+
+        Auth::logout();
+
+        return redirect()->route('loginForm');
     }
 }

@@ -21,7 +21,7 @@ Route::group(['middleware' => ['guest']], function() {
     Route::namespace('Auth')->group(function() {
         Route::namespace('Login')->group(function() {
             //ログイン画面
-            Route::get('/login','LoginController@loginForm')->name('login.form');
+            Route::get('/login','LoginController@loginForm')->name('loginForm');
             Route::post('/login','LoginController@login')->name('login');
         });
         Route::namespace('Register')->group(function() {
@@ -37,18 +37,40 @@ Route::group(['middleware' => ['auth']],function() {
     //管理者画面
     Route::group(['middleware' => ['can:admin']],function() {
         Route::namespace('Admin')->group(function() {
-            Route::namespace('Post')->group(function() {
-                //トップページ
-                Route::get('/admin/top','PostsController@index')->name('admin.post.index');
+            Route::namespace('Post')->group(function(){
+                Route::get('/post/category','PostMainCategoriesController@index')
+                ->name('postMainCategory');
             });
         });
+
+        });
     });
-    //一般ユーザー画面
-    Route::group(['middleware' => ['can:user']],function() {
+    //一般ユーザー、管理者共通画面
+Route::group(['middleware' => ['can:user']],function() {
+
+        Route::namespace('Auth')->group(function() {
+            Route::namespace('Login')->group(function(){
+                //ログアウト処理
+                Route::get('/logout','LoginController@logout')
+                ->name('logout');
+            });
+        });
         Route::namespace('User')->group(function() {
             Route::namespace('Post')->group(function() {
-                Route::get('/top','PostsController@index')->name('user.post.index');
+                //一覧表示
+                Route::get('/post/index/{category?}','PostsController@index')
+                ->name('userPostIndex');
+                //投稿、編集、削除処理
+                Route::resource('post','PostsController',['only'=>['create','store','edit','update','destroy']]);
+                Route::get('/post/{post}','PostsController@show')
+                ->name('post_show');
+
+                Route::post('/post_comment/{post_comment}','PostCommentsController@store')->name('post_comment_store');
+                Route::resource('post_comment','PostCommentsController',['only'=>['edit','update','destroy']]);
+                Route::post('/post_favorite','PostFavoritesController@postFavorite')
+                ->name('post_favorite');
+                Route::post('/post_comment_favorite','PostCommentFavoritesController@postCommentFavorite')
+                ->name('post_comment_favorite');
                 });
             });
         });
-    });

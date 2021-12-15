@@ -9,6 +9,6 @@ class PostsController extends Controller
 {
     //
      public function index() {
-        return view('User.top');
+        return view('User.userPost');
     }
 }
