@@ -38,13 +38,15 @@ Route::group(['middleware' => ['auth']],function() {
     Route::group(['middleware' => ['can:admin']],function() {
         Route::namespace('Admin')->group(function() {
             Route::namespace('Post')->group(function(){
-                Route::get('/post/category','PostMainCategoriesController@index')
-                ->name('postMainCategory');
-            });
-        });
+                Route::get('/post_category','PostsController@index')
+                ->name('postCategory.index');
+                Route::resource('post_main_category','PostMainCategoriesController',['only'=>['store','destroy']]);
+                Route::resource('post_sub_category','PostSubCategoriesController',['only'=>['store','destroy']]);
 
         });
+        });
     });
+
     //一般ユーザー、管理者共通画面
 Route::group(['middleware' => ['can:user']],function() {
 
@@ -74,3 +76,4 @@ Route::group(['middleware' => ['can:user']],function() {
                 });
             });
         });
+});

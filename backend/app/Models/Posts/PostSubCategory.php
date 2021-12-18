@@ -12,4 +12,9 @@ class PostSubCategory extends Model
         'post_main_category_id',
         'sub_category',
     ];
+
+    public static function postSubCategoryDestroy($id) {
+        $post_sub_category = PostSubCategory::findOrFail($id);
+        $post_sub_category->delete();
+    }
 }

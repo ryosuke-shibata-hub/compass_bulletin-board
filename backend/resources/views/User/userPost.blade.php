@@ -7,7 +7,7 @@
   <a href="{{ route('logout') }}">ログアウト</a>
 </p>
 @can('admin')
-<p><a href="{{ route('postMainCategory') }}">カテゴリーを追加</a></p>
+<p><a href="{{ route('postCategory.index') }}">カテゴリーを追加</a></p>
 @endcan
 
 @endsection
