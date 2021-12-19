@@ -23,4 +23,19 @@ class PostMainCategory extends Model
     public static function  postMainCategoryList() {
         return self::postMainCategoryQuery()->get();
     }
+
+    public static function postMainCategoryDestroy($id) {
+s
+        $post_main_category = PostMainCategory::findOrFail($id);
+        if ($post_main_category->postSubCatagoryIsExistence($post_main_category)) {
+            $post_main_category->delete();
+        }
+        return \App::abort(403,'unauthorized action.');
+    }
+
+    public static function postSubCatagoryIsExistence($main_data) {
+
+        return $main_data->postSubCategory->isEmpty();
+    }
+
 }

@@ -18,5 +18,6 @@
   </div>
 
   @yield('footer')
+  @yield('btn-dell')
 </body>
 </html>

@@ -1,5 +1,5 @@
 @extends('layouts.login.common')
-@section('title','トップページ')
+@section('title','カテゴリーの追加')
 @include('layouts.login.header')
 @section('contents')
 
@@ -28,23 +28,35 @@
     <input type="text" name="sub_category">
     <button type="submit">登録</button>
 </Form>
-
 <p>カテゴリー一覧</p>
-<ul>
-  @foreach($post_main_categories as $post_main_category)
-  <li>{{ $post_main_category->main_category }}</li>
-    <ul>
-      @foreach($post_main_category->postSubCategory as $post_sub_category)
-      <li>{{ $post_sub_category->sub_category }}</li>
-      <Form name="postSubCategoryDestroy{{ $post_sub_category->id }}"
-        action="{{ route('post_sub_category.destroy',[$post_sub_category->id])}}"      method="post">
-        @method('delete')
+  <ul>
+    @foreach($post_main_categories as $main_data)
+    <li>{{ $main_data->main_category }}
+      @if($main_data->postSubCatagoryIsExistence($main_data))
+      <Form name="post_main_category_delete{{ $main_data->id }}"
+        action="{{ route('post_main_category.destroy',[$main_data->id]) }}"
+        method="post">
+        @method('DELETE')
         @csrf
-        <a href="javascript:post_sub_category_delete{{ $post_sub_category->id }}.submit()">サブカテゴリー削除</a>
+        <a href="javascript:post_main_category_delete{{ $main_data->id }}.submit()">
+          メインカテゴリー削除</a>
       </Form>
-      @endforeach
-    </ul>
-  @endforeach
+      @endif
+        <ul>
+        @foreach($main_data->postSubCategory as $sub_data)
+        <li>{{ $sub_data->sub_category }}</li>
+        <Form name="post_sub_category_delete{{ $sub_data->id }}"
+          action="{{ route('post_sub_category.destroy',[$sub_data->id]) }}"
+          method="post">
+          @method('DELETE')
+          @csrf
+          <a href="javascript:post_sub_category_delete{{ $sub_data->id }}.submit()">
+            サブカテゴリー削除</a>
+        </Form>
+          @endforeach
+      </ul>
+    </li>
+    @endforeach
   </ul>
 @endsection
 @include('layouts.login.footer')

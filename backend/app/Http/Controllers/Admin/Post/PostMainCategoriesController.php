@@ -20,4 +20,11 @@ class PostMainCategoriesController extends Controller
 
         return redirect()->route('userPostIndex');
     }
+
+     public function destroy($id) {
+        PostMainCategory::postMainCategoryDestroy($id);
+        return back();
+    }
+
+
 }
