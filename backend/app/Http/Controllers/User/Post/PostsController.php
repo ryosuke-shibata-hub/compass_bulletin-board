@@ -31,4 +31,8 @@ class PostsController extends Controller
         return view('User.userPost')
         ->with('posts_lists',Post::posts_lists());
     }
+
+    public function show() {
+        return view('User.show');
+    }
 }
