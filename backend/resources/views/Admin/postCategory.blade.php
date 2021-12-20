@@ -45,6 +45,7 @@
         <ul>
         @foreach($main_data->postSubCategory as $sub_data)
         <li>{{ $sub_data->sub_category }}</li>
+        @if($sub_data->postIsExistence($sub_data))
         <Form name="post_sub_category_delete{{ $sub_data->id }}"
           action="{{ route('post_sub_category.destroy',[$sub_data->id]) }}"
           method="post">
@@ -53,7 +54,8 @@
           <a href="javascript:post_sub_category_delete{{ $sub_data->id }}.submit()">
             サブカテゴリー削除</a>
         </Form>
-          @endforeach
+        @endif
+        @endforeach
       </ul>
     </li>
     @endforeach

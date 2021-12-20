@@ -64,6 +64,7 @@ Route::group(['middleware' => ['can:user']],function() {
                 ->name('userPostIndex');
                 //投稿、編集、削除処理
                 Route::resource('post','PostsController',['only'=>['create','store','edit','update','destroy']]);
+                //投稿詳細ページ
                 Route::get('/post/{post}','PostsController@show')
                 ->name('post_show');
 

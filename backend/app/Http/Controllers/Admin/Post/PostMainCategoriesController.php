@@ -9,18 +9,16 @@ use App\Models\Posts\PostMainCategory;
 class PostMainCategoriesController extends Controller
 {
     //
-
+//メインカテゴリー登録
     public function store(Request $request) {
 
         $mainCategory = new PostMainCategory();
-
         $data['main_category'] = $request->main_category;
-
         $mainCategory->fill($data)->save();
 
         return redirect()->route('userPostIndex');
     }
-
+//メインカテゴリー削除
      public function destroy($id) {
         PostMainCategory::postMainCategoryDestroy($id);
         return back();
