@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Posts\PostMainCategory;
 use App\Models\Posts\post;
+use App\Models\Users\User;
 use Auth;
 use carbon;
 
@@ -26,13 +27,51 @@ class PostsController extends Controller
        return redirect()->route('userPostIndex');
 
     }
-//投稿一覧
+//投稿一覧画面
      public function index() {
         return view('User.userPost')
         ->with('posts_lists',Post::posts_lists());
     }
+//投稿詳細画面
+    public function show($id) {
 
-    public function show() {
-        return view('User.show');
+        return view('User.show')
+        ->with('posts_detail',Post::postDetail($id));
+    }
+//投稿編集画面
+    public function edit($id) {
+
+        $post_detail = Post::postDetail($id);
+
+        if (User::contributorAndAdmin($post_detail->user_id)) {
+
+            return view('User.edit')
+            ->with('posts_detail',Post::postDetail($id))
+            ->with('post_main_category',PostMainCategory::postMainCategoryList());
+        }
+        return \App::abort(403,'unauthorized action.');
+    }
+//投稿の更新処理
+    public function update(Request $request,$id) {
+
+        $posts_detail = Post::postDetail($id);
+        if (User::contributorAndAdmin($posts_detail->user_id)) {
+            $posts_detail->postUpdate($request, $posts_detail);
+            return redirect()->route('post_show',[$id]);
+        }
+        return \App::abort(403,'unauthorized action.');
+    }
+//投稿の削除処理
+    public static function destroy($id) {
+
+        $posts_detail = Post::postDetail($id);
+        if (User::contributorAndAdmin($posts_detail->user_id)) {
+            if($posts_detail->postCommentIsExistence($posts_detail)) {
+                $posts_detail->delete();
+                return redirect()->route('userPostIndex');
+            }
+            return \App::abort(404,'unauthorized action.');
+        }
+        return \App::abort(403,'unauthorized action.');
     }
 }

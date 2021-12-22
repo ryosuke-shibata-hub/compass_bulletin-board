@@ -3,6 +3,7 @@
 namespace App\Models\Posts;
 use Auth;
 use Carbon\Carbon;
+use App\Models\Users\User;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,6 +33,7 @@ class Post extends Model
         return self::with([
             'user',
             'postSubCategory',
+            'postComments.user',
         ]);
     }
 //post->user,subcate一覧（リレーション）
@@ -48,4 +50,26 @@ class Post extends Model
         $post->fill($data)->save();
 
     }
+//投稿詳細
+   public static function postDetail($id) {
+        return self::postQuery()->findOrFail($id);
+    }
+//投稿編集
+    public static function postUpdate($request,$posts_detail)
+    {
+        $data['post_sub_category_id'] = $request->post_sub_category_id;
+        $data['title'] = $request->title;
+        $data['post'] = $request->post;
+
+        return $posts_detail->fill($data)->save();
+    }
+//post_commentのリレーション
+    public function postComments() {
+        return $this->hasMany('App\Models\Posts\PostComment');
+    }
+//コメントがある場合削除停止
+    public static function postCommentIsExistence($posts_detail) {
+        return $posts_detail->postComments->isEmpty();
+    }
+
 }
