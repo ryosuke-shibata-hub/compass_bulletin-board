@@ -28,6 +28,10 @@ class Post extends Model
     public function postSubCategory() {
         return $this->belongsTo('App\Models\Posts\PostSubCategory','post_sub_category_id');
     }
+//post_commentのリレーション
+    public function postComments() {
+        return $this->hasMany('App\Models\Posts\PostComment');
+    }
 //N+1
     public static function postQuery(){
         return self::with([
@@ -63,10 +67,7 @@ class Post extends Model
 
         return $posts_detail->fill($data)->save();
     }
-//post_commentのリレーション
-    public function postComments() {
-        return $this->hasMany('App\Models\Posts\PostComment');
-    }
+
 //コメントがある場合削除停止
     public static function postCommentIsExistence($posts_detail) {
         return $posts_detail->postComments->isEmpty();

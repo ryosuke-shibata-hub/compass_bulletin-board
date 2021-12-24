@@ -34,4 +34,12 @@ class PostComment extends Model
     public function user() {
         return $this->belongsTo('App\Models\Users\User','user_id');
     }
+
+    public static function comment_update($request,$post_comment_detail) {
+
+        $data['comment'] = $request->comment;
+        $data['updated_at'] = carbon::now();
+
+        return $post_comment_detail->fill($data)->save();
+    }
 }
