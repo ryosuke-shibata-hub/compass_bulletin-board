@@ -65,13 +65,18 @@ Route::group(['middleware' => ['can:user']],function() {
                 //投稿、編集、削除処理
                 Route::resource('post','PostsController',['only'=>['create','store','edit','update','destroy']]);
                 //投稿詳細ページ
+                //view数カウント
+                Route::group(['middleware' => ['post_show']],function() {
                 Route::get('/post/{post}','PostsController@show')
                 ->name('post_show');
+                 });
 
                 Route::post('/post_comment/{post_comment}','PostCommentsController@store')->name('post_comment_store');
                 Route::resource('post_comment','PostCommentsController',['only'=>['edit','update','destroy']]);
+
                 Route::post('/post_favorite','PostFavoritesController@postFavorite')
                 ->name('post_favorite');
+
                 Route::post('/post_comment_favorite','PostCommentFavoritesController@postCommentFavorite')
                 ->name('post_comment_favorite');
                 });

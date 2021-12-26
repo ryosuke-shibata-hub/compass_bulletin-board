@@ -39,7 +39,7 @@
 <Form action="{{ route('post.destroy',[$posts_detail->id]) }}" method="post">
   @method('DELETE')
   @csrf
-  <button type="submit">投稿の削除</button>
+  <button class="btn-dell" type="submit">投稿の削除</button>
 </Form>
 @endif
 @endsection

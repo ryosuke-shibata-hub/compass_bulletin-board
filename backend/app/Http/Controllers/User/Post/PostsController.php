@@ -8,7 +8,7 @@ use App\Models\Posts\PostMainCategory;
 use App\Models\Posts\post;
 use App\Models\Users\User;
 use Auth;
-use carbon;
+
 
 class PostsController extends Controller
 {
@@ -28,9 +28,11 @@ class PostsController extends Controller
 
     }
 //投稿一覧画面
-     public function index() {
+     public function index(Request $request,$subcategory_id = null) {
+
         return view('User.userPost')
-        ->with('posts_lists',Post::posts_lists());
+        ->with('posts_lists',Post::posts_lists($request,$subcategory_id))
+        ->with('postMainCategoryList',PostMainCategory::postMainCategoryList());
     }
 //投稿詳細画面
     public function show($id) {
