@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Admin\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Posts\PostSubCategory;
+use App\Http\Requests\PostSubCategoryStoreRequest;
 
 class PostSubCategoriesController extends Controller
 {
     //
 //サブカテゴリー登録
-    public function store(Request $request) {
+    public function store(PostSubCategoryStoreRequest $request) {
 
         $subCateGory = new PostSubCategory();
         $data['post_main_category_id'] = $request->post_main_category_id;

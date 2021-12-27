@@ -9,6 +9,9 @@
   @csrf
   <label>新規メインカテゴリー</label>
   <input type="text" name="main_category">
+  @if($errors->has('main_category'))
+  <span class="text-danger">{{ $errors->first('main_category') }}</span>
+  @endif
   <button type="submit">登録</button>
 </Form>
 
@@ -23,9 +26,15 @@
           </option>
         @endforeach
     </select>
+    @if($errors->has('post_main_category_id'))
+    <span class="text-danger">{{ $errors->first('post_main_category_id') }}</span>
+    @endif
 
     <label>新規サブカテゴリー追加</label>
     <input type="text" name="sub_category">
+    @if($errors->has('sub_category'))
+    <span class="text-danger">{{ $errors->first('sub_category') }}</span>
+    @endif
     <button type="submit">登録</button>
 </Form>
 <p>カテゴリー一覧</p>
