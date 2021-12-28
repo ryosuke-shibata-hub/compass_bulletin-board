@@ -45,6 +45,7 @@
 </Form>
 
 @foreach($posts_detail->postComments as $postComment)
+
   <p>{{ $postComment->user->username }}</p>
   <p>{{ $postComment->comment }}</p>
   <p>{{ $postComment->event_at }}</p>

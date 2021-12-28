@@ -55,7 +55,7 @@ $(function (){
     var comment_id = $(this).attr("comment_id");
     var comment_favorite_id = $(this).attr("comment_favorite_id");
     var click_comment_favorite = $(this);
-console.log(comment_id)
+
     stop_process(click_comment_favorite);
 
     $.ajax({
@@ -64,7 +64,7 @@ console.log(comment_id)
       },
       url: '/post_comment_favorite',
       type: 'POST',
-      data: { 'comment_id': comment_id, 'comment_favorite_id': comment_favorite_id, },
+      data: { 'comment_id':comment_id, 'comment_favorite_id':comment_favorite_id, },
     })
         .done(function (data) {
         $('#comment_favorite_count' + comment_id).text(data[1]).change();

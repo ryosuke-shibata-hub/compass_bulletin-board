@@ -43,7 +43,7 @@ class Post extends Model
     }
 //userのコメントとfavoriteのリレーション
     public function userCommentFavoriteRelation() {
-        return $this->belongsToMany('App\Models\Users\User','post_comment_favorites',
+        return $this->belongsToMany('App\Models\Posts\PostComment','post_comment_favorites',
         'post_comment_id','user_id');
     }
 //N+1
