@@ -4,7 +4,7 @@ namespace App\Models\Posts;
 use Auth;
 use Carbon\Carbon;
 use App\Models\Users\User;
-
+///
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
